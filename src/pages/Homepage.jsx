@@ -1,8 +1,16 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const Homepage = () => {
     const [task, setTask] = useState("");
-    const [taskList, setTaskList] = useState([]);
+    const [taskList, setTaskList] = useState(() => {
+        const savedTasks = localStorage.getItem("taskList");
+        return savedTasks ? JSON.parse(savedTasks) : [];
+    });
+    
+    useEffect(() => {
+        localStorage.setItem("taskList", JSON.stringify(taskList));
+    }, [taskList]);
+
     return (
         <>
         <div className="flex flex-row justify-center bg-gray-100 p-4 gap-3.5">
